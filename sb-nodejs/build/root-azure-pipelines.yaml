@@ -34,7 +34,7 @@ stages:
       appName: 'sb-node-js'
       envCode: 'devx'
       k8sConnName: 'gke-devx-devops'
-      projectPrefix: 'connect'
+      projectPrefix: 'devops'
 
 - stage: test
   dependsOn: CI
@@ -45,7 +45,7 @@ stages:
       appName: 'sb-node-js'
       envCode: 'test'
       k8sConnName: 'gke-test-devops'
-      projectPrefix: 'connect'
+      projectPrefix: 'devops'
 
 - stage: stag
   dependsOn: CI
@@ -56,7 +56,7 @@ stages:
       appName: 'sb-node-js'
       envCode: 'stag'
       k8sConnName: 'gke-prod'
-      projectPrefix: 'connect'
+      projectPrefix: 'devops'
 
 - stage: prod
   dependsOn: CI
@@ -67,4 +67,4 @@ stages:
       appName: 'sb-node-js'
       envCode: 'prod'
       k8sConnName: 'gke-prod'
-      projectPrefix: 'connect'
+      projectPrefix: 'devops'
