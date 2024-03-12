@@ -13,7 +13,7 @@ jobs:
       inputs:
         containerRegistry: '${{ parameters.dockerHubConnName }}'
         repository: '${{ parameters.dockerHubRepoName }}'
-        Dockerfile: Dockerfile
+        Dockerfile: sb-nodejs/Dockerfile
         tags: |
          $(Build.BuildNumber)
          latest
