@@ -22,8 +22,8 @@ stages:
   jobs:
   - template: 'ci-azure-pipelines.yaml'
     parameters:
-      gcrConnName: 'gcr-sb'
-      gcrRepoName: 'gcr-sb/sb-node-js'
+      dockerHubConnName: 'personal-dockerhub'
+      dockerHubRepoName: 'allenvino1/sb-node-js'
 
 - stage: devx
   dependsOn: CI
