@@ -34,10 +34,7 @@ jobs:
               helmVersion: '$(CD.Helm.Version)'
               checkLatestHelmVersion: false
 
-          - task: tsuyoshiushio.shell-exec.shellexec.shellexec@0
-            displayName: 'shellexec '
-            inputs:
-              code: |
+          - bash: | 
                export YAML=$(System.ArtifactsDirectory)/chart/values.yaml
                
                if ! which envsubst > /dev/null 2>&1; then
@@ -47,6 +44,7 @@ jobs:
                envsubst < $YAML > file.tmp && mv file.tmp $YAML
                
                cat  $YAML
+            displayName: "Substitute variables"
 
           - task: HelmDeploy@0
             displayName: 'helm upgrade'
