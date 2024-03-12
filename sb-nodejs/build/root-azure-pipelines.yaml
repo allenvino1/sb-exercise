@@ -24,7 +24,7 @@ stages:
   - template: 'ci-azure-pipelines.yaml'
     parameters:
       dockerHubConnName: 'personal-dockerhub'
-      dockerHubRepoName: 'allenvino1/sb-node-js'
+      dockerHubRepoName: 'allenvino1/sb-nodejs'
 
 - stage: devx
   dependsOn: CI
