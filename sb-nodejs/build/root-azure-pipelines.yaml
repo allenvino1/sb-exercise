@@ -33,7 +33,7 @@ stages:
     parameters:
       appName: 'sb-node-js'
       envCode: 'devx'
-      k8sConnName: 'gke-devx-devops'
+      k8sConnName: 'gke-devx'
       projectPrefix: 'devops'
 
 - stage: test
@@ -44,7 +44,7 @@ stages:
     parameters:
       appName: 'sb-node-js'
       envCode: 'test'
-      k8sConnName: 'gke-test-devops'
+      k8sConnName: 'gke-test'
       projectPrefix: 'devops'
 
 - stage: stag
