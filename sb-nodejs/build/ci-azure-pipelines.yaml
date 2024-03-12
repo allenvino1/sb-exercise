@@ -1,7 +1,7 @@
 parameters:
-- name: gcrConnName
+- name: dockerHubConnName
   type: string
-- name: gcrRepoName
+- name: dockerHubRepoName
   type: string
 
 
@@ -11,8 +11,8 @@ jobs:
     - task: Docker@2
       displayName: buildAndPush
       inputs:
-        containerRegistry: '${{ parameters.gcrConnName }}'
-        repository: '${{ parameters.gcrRepoName }}'
+        containerRegistry: '${{ parameters.dockerHubConnName }}'
+        repository: '${{ parameters.dockerHubRepoName }}'
         Dockerfile: Dockerfile
         tags: |
          $(Build.BuildNumber)
