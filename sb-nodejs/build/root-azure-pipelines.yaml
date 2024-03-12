@@ -1,5 +1,5 @@
 pool:
-  name: devops-agents
+  name: devops-agent
   # name: Azure Pipelines
   # vmImage: ubuntu-20.04
 
@@ -10,7 +10,7 @@ trigger:
     - hotfix
     - DEV/*
     - devops/playground
-    - master
+    - main
   paths: 
     include: 
     - sb-nodejs/*
