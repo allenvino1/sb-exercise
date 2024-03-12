@@ -1,0 +1,70 @@
+pool:
+  name: Azure Pipelines
+  vmImage: ubuntu-20.04
+
+trigger:
+  branches:
+    include:
+    - releases/*
+    - hotfix
+    - DEV/*
+    - devops/playground
+    - master
+  paths: 
+    include: 
+    - sb-nodejs/*
+
+pr: none
+
+stages:
+- stage: CI
+  displayName: 'CI Pipeline'
+  jobs:
+  - template: 'build-template.yaml'
+    parameters:
+      gcrConnName: 'gcr-sb'
+      gcrRepoName: 'gcr-sb/sb-node-js'
+
+- stage: devx
+  dependsOn: CI
+  displayName: 'devx deployment'
+  jobs:
+  - template: 'deploy-template.yaml'
+    parameters:
+      appName: 'sb-node-js'
+      envCode: 'devx'
+      k8sConnName: 'gke-devx-devops'
+      projectPrefix: 'connect'
+
+- stage: test
+  dependsOn: CI
+  displayName: 'test deployment'
+  jobs:
+  - template: 'deploy-template.yaml'
+    parameters:
+      appName: 'sb-node-js'
+      envCode: 'test'
+      k8sConnName: 'gke-test-devops'
+      projectPrefix: 'connect'
+
+- stage: stag
+  dependsOn: CI
+  displayName: 'stag deployment'
+  jobs:
+  - template: 'deploy-template.yaml'
+    parameters:
+      appName: 'sb-node-js'
+      envCode: 'stag'
+      k8sConnName: 'gke-prod'
+      projectPrefix: 'connect'
+
+- stage: prod
+  dependsOn: CI
+  displayName: 'prod deployment'
+  jobs:
+  - template: 'deploy-template.yaml'
+    parameters:
+      appName: 'sb-node-js'
+      envCode: 'prod'
+      k8sConnName: 'gke-prod'
+      projectPrefix: 'connect'

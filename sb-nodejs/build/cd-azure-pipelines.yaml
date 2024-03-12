@@ -1,0 +1,64 @@
+parameters:
+- name: appName
+  type: string
+- name: envCode
+  type: string
+- name: k8sConnName
+  type: string
+- name: projectPrefix
+  type: string
+
+
+jobs:
+  - deployment: Deploy
+    variables:
+    - group: '${{ parameters.projectPrefix }}-${{ parameters.envCode }}' 
+    displayName: '${{ parameters.envCode }} deployment'
+    environment: '${{ parameters.projectPrefix }}-${{ parameters.envCode }}'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: none
+
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              artifactName: chart
+              buildType: current
+              downloadType: single
+              download: '$(System.ArtifactsDirectory)'
+
+          - task: HelmInstaller@0
+            displayName: 'Install Helm $(Helm.Version)'
+            inputs:
+              helmVersion: '$(CD.Helm.Version)'
+              checkLatestHelmVersion: false
+
+          - task: tsuyoshiushio.shell-exec.shellexec.shellexec@0
+            displayName: 'shellexec '
+            inputs:
+              code: |
+               export YAML=$(System.ArtifactsDirectory)/chart/values.yaml
+               
+               if ! which envsubst > /dev/null 2>&1; then
+                   apt-get update && apt-get install -y gettext
+               fi
+               
+               envsubst < $YAML > file.tmp && mv file.tmp $YAML
+               
+               cat  $YAML
+
+          - task: HelmDeploy@0
+            displayName: 'helm upgrade'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: '${{ parameters.k8sConnName }}'
+              namespace: '${{ parameters.projectPrefix }}-${{ parameters.envCode }}' 
+              command: upgrade
+              chartType: FilePath
+              chartPath: $(System.ArtifactsDirectory)/chart/
+              releaseName: '${{ parameters.appName }}-${{ parameters.envCode }}'
+              overrideValues: 'image.tag=$(Build.BuildNumber)'
+              valueFile: '$(System.ArtifactsDirectory)/chart/values.yaml'
+              arguments: '--install'
+              failOnStderr: true

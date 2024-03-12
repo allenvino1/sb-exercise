@@ -1,0 +1,19 @@
+parameters:
+- name: gcrConnName
+  type: string
+- name: gcrRepoName
+  type: string
+
+
+jobs:
+  - job:
+    steps:
+    - task: Docker@2
+      displayName: buildAndPush
+      inputs:
+        containerRegistry: '${{ parameters.gcrConnName }}'
+        repository: '${{ parameters.gcrRepoName }}'
+        Dockerfile: Dockerfile
+        tags: |
+         $(Build.BuildNumber)
+         latest
