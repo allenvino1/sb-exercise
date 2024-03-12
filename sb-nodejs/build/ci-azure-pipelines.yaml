@@ -9,7 +9,7 @@ jobs:
 
   - job: scanLockFile
     steps:
-     - bash: docker run -i -v ${PWD}:/src ghcr.io/google/osv-scanner -L /sb-nodejs/package-lock.json
+     - bash: docker run -i -v ${PWD}:/src ghcr.io/google/osv-scanner -L /src/sb-nodejs/package-lock.json
        continueOnError: true 
 
   - job: appBuildImage
