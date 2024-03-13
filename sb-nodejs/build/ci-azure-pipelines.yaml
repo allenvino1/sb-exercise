@@ -24,7 +24,7 @@ jobs:
          $(Build.BuildNumber)
          latest
 
-  - job: 
+  - job: helmChartArtifact
     steps:
     - task: PublishBuildArtifacts@1
       displayName: "Publish Artifact: chart"
