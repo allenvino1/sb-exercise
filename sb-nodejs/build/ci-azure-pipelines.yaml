@@ -23,3 +23,11 @@ jobs:
         tags: |
          $(Build.BuildNumber)
          latest
+
+  - job: 
+    steps:
+    - task: PublishBuildArtifacts@1
+      displayName: "Publish Artifact: chart"
+      inputs:
+        PathtoPublish: chart
+        ArtifactName: chart
