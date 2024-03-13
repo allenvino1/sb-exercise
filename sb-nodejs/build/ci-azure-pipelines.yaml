@@ -29,5 +29,5 @@ jobs:
     - task: PublishBuildArtifacts@1
       displayName: "Publish Artifact: chart"
       inputs:
-        PathtoPublish: chart
+        PathtoPublish: sb-nodejs/chart
         ArtifactName: chart
